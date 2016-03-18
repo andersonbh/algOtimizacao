@@ -2,6 +2,8 @@
 
 Essa aplicação é destinada a matéria de Otimização de Sistemas da PUC Minas.
 
+Software contendo os algortimos do Método Simplex de Venttsel e o Branch and Bound.
+
 Antes de iniciar o desenvolvimento, instale e configure as seguintes dependências:
 
 1. [Node.js][]: O Node é utilizado para rodar um servidor de desenvolvimento e fazer o build do projeto.
