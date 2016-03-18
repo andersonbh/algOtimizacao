@@ -22,7 +22,7 @@ spring:
         driver-class-name: org.postgresql.ds.PGSimpleDataSource
         url: jdbc:postgresql://localhost:5432/algOtimizacao
         name:
-        username: algOtimizacao
+        username: anderson
         password: 1234
     jpa:
         database-platform: br.pucminas.algotimizacao.domain.util.FixedPostgreSQL82Dialect

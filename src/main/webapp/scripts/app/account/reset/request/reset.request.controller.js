@@ -1,10 +1,6 @@
 'use strict';
 
 angular.module('algotimizacaoApp')
-    .run(function (defaultErrorMessageResolver) {
-        mensagensErro(defaultErrorMessageResolver);
-    })
-
     .controller('RequestResetController', function ($rootScope, $scope, $state, $timeout, Auth) {
 
         $scope.success = null;

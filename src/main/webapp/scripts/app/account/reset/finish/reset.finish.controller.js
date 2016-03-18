@@ -1,10 +1,6 @@
 'use strict';
 
 angular.module('algotimizacaoApp')
-    .run(function (defaultErrorMessageResolver) {
-        mensagensErro(defaultErrorMessageResolver);
-    })
-
     .controller('ResetFinishController', function ($scope, $stateParams, $timeout, Auth) {
 
         $scope.keyMissing = $stateParams.key === undefined;

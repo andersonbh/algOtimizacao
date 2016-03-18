@@ -1,10 +1,6 @@
 'use strict';
 
 angular.module('algotimizacaoApp')
-    .run(function (defaultErrorMessageResolver) {
-        mensagensErro(defaultErrorMessageResolver);
-    })
-
     .controller('PasswordController', function ($scope, Auth, Principal) {
         Principal.identity().then(function(account) {
             $scope.account = account;

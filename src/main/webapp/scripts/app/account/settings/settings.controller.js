@@ -1,10 +1,6 @@
 'use strict';
 
 angular.module('algotimizacaoApp')
-    .run(function (defaultErrorMessageResolver) {
-        mensagensErro(defaultErrorMessageResolver);
-    })
-
     .controller('SettingsController', function ($scope, Principal, Auth) {
         $scope.success = null;
         $scope.error = null;
