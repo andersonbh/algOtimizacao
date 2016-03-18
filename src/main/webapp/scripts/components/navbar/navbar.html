@@ -1,0 +1,63 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#/"><span>jhipster</span> <span class="navbar-version">v{{VERSION}}</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="isAuthenticated()">
+            <ul class="nav navbar-nav navbar-right">
+                <li ui-sref-active="active">
+                    <a ui-sref="home" data-toggle="collapse" data-target=".navbar-collapse.in">
+                        <span class="glyphicon glyphicon-home"></span>
+                        <span class="hidden-sm">Home</span>
+                    </a>
+                </li>
+                <li ng-class="{active: $state.includes('account')}" class="dropdown pointer">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="" id="account-menu">
+                        <span>
+                            <span class="glyphicon glyphicon-user"></span>
+                            <span class="hidden-sm">
+                                Acesso
+                            </span>
+                            <b class="caret"></b>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ui-sref-active="active" ng-switch-when="true"><a ui-sref="settings" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-wrench"></span>
+                            &#xA0;<span>Configurações</span></a></li>
+                        <li ui-sref-active="active" ng-switch-when="true"><a ui-sref="password" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-lock"></span>
+                            &#xA0;<span>Alterar Senha</span></a></li>
+                        <li ui-sref-active="active" ng-switch-when="true"><a ui-sref="sessions" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-cloud"></span>
+                            &#xA0;<span>Minhas seções</span></a></li>
+                        <li ui-sref-active="active" ng-switch-when="true"><a href="" ng-click="logout()" id="logout" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-log-out"></span>
+                            &#xA0;<span>Sair</span></a></li>
+                        <li ui-sref-active="active" ng-switch-when="false"><a ui-sref="login" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-log-in"></span>
+                            &#xA0;<span>Efetuar login</span></a></li>
+                    </ul>
+                </li>
+                <li ng-class="{active: $state.includes('admin')}"  ng-switch-when="true" has-authority="ROLE_ADMIN" class="dropdown pointer">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="" id="admin-menu">
+                        <span>
+                            <span class="glyphicon glyphicon-tower"></span>
+                            <span class="hidden-sm">Administração</span>
+                            <b class="caret"></b>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ui-sref-active="active"><a ui-sref="user-management" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-user"></span>
+                            &#xA0;<span>Gerenciamento de usuários</span></a></li>
+                        <li ui-sref-active="active"><a ui-sref="health" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-heart"></span>
+                            &#xA0;<span>Status do Sistema</span></a></li>
+                        <li ui-sref-active="active"><a ui-sref="audits" data-toggle="collapse" data-target=".navbar-collapse.in"><span class="glyphicon glyphicon-bell"></span>
+                            &#xA0;<span>Histórico de Acesso</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

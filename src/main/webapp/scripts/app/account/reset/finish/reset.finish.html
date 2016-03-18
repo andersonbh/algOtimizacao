@@ -1,0 +1,48 @@
+<div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <h1>Resetar Senha</h1>
+
+            <div class="alert alert-danger" ng-show="keyMissing">
+                <strong>O código para atualizar a senha está faltando.</strong>
+            </div>
+
+            <div class="alert alert-warning" ng-hide="success || keyMissing">
+                <p>Escolha uma nova senha.</p>
+            </div>
+
+            <div class="alert alert-danger" ng-show="error">
+                <p>Sua senha não pode ser atualizada. Um pedido para resetar senha só é válido por 24 horas.</p>
+            </div>
+
+            <div class="alert alert-success" ng-show="success">
+                <p><strong>Sua senha foi atualizada.</strong> Por favor <a class="alert-link" href="#/login">faça o login</a>.</p>
+            </div>
+
+            <div class="alert alert-danger" ng-show="doNotMatch">
+                A senha e a confirmação da senha não estão iguais!
+            </div>
+
+            <div ng-hide="keyMissing">
+                <form ng-show="!success" name="form" role="form" novalidate ng-submit="finishReset()" show-validation>
+                    <div class="form-group">
+                        <label class="control-label" for="password">Nova Senha</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Nova senha"
+                               ng-model="resetAccount.password" ng-minlength=5 ng-maxlength=50 required
+                               required ng-required-err-type="requerido" ng-minlength-err-type="senhaTamanhoMin" ng-maxlength-err-type="senhaTamanhoMax">
+                        <password-strength-bar password-to-check="resetAccount.password"></password-strength-bar>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="confirmPassword">Confirme a nova senha</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme a nova senha"
+                               ng-model="confirmPassword" ng-minlength=5 ng-maxlength=50 required
+                               required ng-required-err-type="requerido" ng-minlength-err-type="confirmacaoTamanhoMin" ng-maxlength-err-type="confirmacaoTamanhoMax">
+                    </div>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Salvar</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

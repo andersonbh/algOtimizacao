@@ -1,0 +1,22 @@
+{
+  "generator-jhipster": {
+    "baseName": "algOtimizacao",
+    "packageName": "br.pucminas.algotimizacao",
+    "packageFolder": "br/pucminas/algotimizacao",
+    "authenticationType": "session",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "no",
+    "useSass": false,
+    "buildTool": "gradle",
+    "frontendBuilder": "gulp",
+    "enableTranslation": false,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "5419a84f7a8f08c28323d46cc8913d7f1db8aaae",
+    "testFrameworks": []
+  }
+}

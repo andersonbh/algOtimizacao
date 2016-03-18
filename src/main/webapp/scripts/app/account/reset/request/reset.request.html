@@ -1,0 +1,30 @@
+<div>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h1>Resetar senha</h1>
+
+            <div class="alert alert-danger" ng-show="errorEmailNotExists">
+                <strong>E-Mail não está registrado!</strong> Por favor confira seu e-mail e tente novamente.
+            </div>
+
+            <div class="alert alert-warning" ng-hide="success">
+                <p>Entre com o e-mail usado para se registrar.</p>
+            </div>
+
+            <div class="alert alert-success" ng-show="success == 'OK'">
+                <p>Verifique seu e-mail para conferir como resetar sua senha.</p>
+            </div>
+
+            <form ng-show="!success" name="form" role="form" novalidate ng-submit="requestReset()" show-validation>
+                <div class="form-group">
+                    <label class="control-label" for="email">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Seu e-mail"
+                           ng-model="resetAccount.email" ng-minlength=5 ng-maxlength=100 required
+                           ng-required-err-type="requerido" ng-email-err-type="emailValido" ng-minlength-err-type="5caracteres" ng-maxlength-err-type="100caracteres">
+                </div>
+                <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Salvar</button>
+            </form>
+
+        </div>
+    </div>
+</div>

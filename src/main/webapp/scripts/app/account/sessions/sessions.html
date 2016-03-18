@@ -1,0 +1,38 @@
+<div>
+
+    <h2>Sessões ativas para [<b>{{account.login}}</b>]</h2>
+
+    <div class="alert alert-success" ng-show="success">
+        <strong>Sessão inválidada!</strong>
+    </div>
+    <div class="alert alert-danger" ng-show="error">
+        <strong>Um erro ocorreu!</strong> A sessão não pode ser inválidada.
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Endereço de IP</th>
+                    <th>User agent</th>
+                    <th>Data</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="session in sessions">
+                    <td>{{session.ipAddress}}</td>
+                    <td>{{session.userAgent}}</td>
+                    <td>{{session.formattedTokenDate}}</td>
+                    <td>
+                        <button type="submit"
+                                class="btn btn-primary"
+                                ng-click="invalidate(session.series)">
+                                 Invalidar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
