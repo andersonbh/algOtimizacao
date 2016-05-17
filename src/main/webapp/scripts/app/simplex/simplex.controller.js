@@ -3,16 +3,22 @@
 angular.module('algotimizacaoApp')
     .controller('SimplexController', function ($scope, Principal) {
         $scope.indice = 0;
-        $scope.variaveis = [];
+        $scope.numvariaveis = [];
+        $scope.funcaoObjetivo = [];
+        $scope.valoresRestricoes = [$scope.numvariaveis];
         $scope.restricoes = [];
+        $scope.valoresVariaveis = [];
 
         $scope.init = function(){
-            $scope.variaveis.push(0);
-            $scope.restricoes.push(1)
+            $scope.numvariaveis.push(0);
+            $scope.restricoes.push(1);
+
         };
 
         $scope.addVar = function(){
-            $scope.variaveis.push($scope.variaveis.length);
+            $scope.numvariaveis.push($scope.numvariaveis.length);
+            $scope.funcaoObjetivo[$scope.numvariaveis.length] = 0;
+            $scope.valoresRestricoes[$scope.restricoes.length][$scope.numvariaveis.length] = 0;
         };
 
         $scope.addRestricao = function(){
@@ -23,4 +29,6 @@ angular.module('algotimizacaoApp')
             $scope.account = account;
             $scope.isAuthenticated = Principal.isAuthenticated;
         });
+
+
     });

@@ -11,15 +11,9 @@
                 </div>
             </form>
             <form class="form-inline">
-                <div class="form-group" ng-repeat="i in variaveis" style="margin-top: 10px">
-                    <input type="text" class="form-control" style="width: 80px;" id="fator" placeholder="Ex: 2">
-                    <label for="fator">x<sub>{{$index}}</sub></label>
-                    <select class="form-control" ng-if="!$last" style="margin-right: 5px">
-                        <option>+</option>
-                        <option>-</option>
-                        <option>X</option>
-                        <option>/</option>
-                    </select>
+                <div class="form-group" ng-repeat="i in numvariaveis" style="margin-top: 10px">
+                    <input type="number" class="form-control" ng-model="funcaoObjetivo[i]" style="width: 80px;" id="fator" placeholder="Ex: 2">
+                    <label for="fator">x<sub>{{$index}}</sub>+</label>
                 </div>
                 <button type="submit" ng-click="addVar()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-plus" ></i></button>
             </form>
@@ -28,9 +22,9 @@
 
             <form class="form-inline" ng-repeat="r in restricoes">
                 <label>Restrição {{$index + 1}}</label>
-                <div class="form-group" ng-repeat="i in variaveis" style="margin-top: 10px">
-                    <input type="text" class="form-control" id="fator1" placeholder="Ex: 2" style="width: 80px;">
-                    <label for="fator">x<sub>{{$index}}</sub></label>
+                <div class="form-group" ng-repeat="i in numvariaveis" style="margin-top: 10px">
+                    <input type="number" class="form-control" id="fator1" ng-model="valoresRestricoes[r][i]" ng-bind="0" placeholder="Ex: 2" style="width: 80px;">
+                    <label for="fator">x<sub>{{$index}}</sub> + </label>
                 </div>
                 <select class="form-control" style="margin-top: 10px">
                     <option>></option>
@@ -43,6 +37,7 @@
                 <input type="text" class="form-control" style="margin-top: 10px; width: 80px;" placeholder="Ex: 1">
             </form>
             <button type="submit" ng-click="addRestricao()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-plus" ></i></button>
+            <button ng-click="resolver()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-list" ></i></button>
 
         </div>
     </div>

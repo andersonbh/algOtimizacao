@@ -1,11 +1,13 @@
 package br.pucminas.algotimizacao.config.controller;
 
+import br.pucminas.algotimizacao.config.model.SimplexModel;
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/simplex")
-public class simplexController {
+public class SimplexController {
+
+    SimplexModel sm;
 
     /**
      * POST  /resolver -> resolve o simplex recebendo os valores solicitados
@@ -22,8 +26,10 @@ public class simplexController {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     //@Timed
-    public ResponseEntity<String> resolverSimplex (){
-
+    public ResponseEntity<String> resolverSimplex (@RequestParam double[] fo){
+           sm.resolverSimplex();
         return new ResponseEntity<>("Simplex resolvido!", HttpStatus.OK);
     }
+
+
 }
