@@ -45,6 +45,7 @@ public class SimplexController {
                 }
 
             }
+            sm.resolverSimplex(funcao, restricoes);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -52,7 +53,6 @@ public class SimplexController {
         DataData resposta = new DataData();
         resposta.add(funcao);
         resposta.setMessage("aeeee");
-//           sm.resolverSimplex();
         return resposta;
     }
 

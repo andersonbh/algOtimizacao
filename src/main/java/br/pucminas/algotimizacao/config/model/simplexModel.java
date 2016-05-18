@@ -12,7 +12,7 @@ public class SimplexModel {
     List<String> bas = new ArrayList<>();
     List<String> nbas = new ArrayList<>();
 
-    public String resolverSimplex(/*double[] fo, double [][] restricoes*/){
+    public String resolverSimplex(double[] fo, double [][] restricoes){
         matResult = new Celula[3][4];
         matResult[0][0] = new Celula(0, -320);
         matResult[1][0] = new Celula(80, -20);
