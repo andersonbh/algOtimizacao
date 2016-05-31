@@ -8,6 +8,7 @@ angular.module('algotimizacaoApp')
         $scope.valoresRestricoes = [$scope.numvariaveis];
         $scope.restricoes = [];
         $scope.valoresVariaveis = [];
+        $scope.totalRestricoes = [];
 
         $scope.init = function(){
             $scope.numvariaveis.push(0);
@@ -37,9 +38,12 @@ angular.module('algotimizacaoApp')
             restricoes.shift();
             //passa para json cabulosamente
             var jsonTexto = JSON.stringify(restricoes);
-
+            console.log($scope.totalRestricoes);
+            console.log($scope.funcaoObjetivo);
+            console.log(jsonTexto);
             $http.post("/simplex/resolver",
                 {
+                    tres: $scope.totalRestricoes,
                     fo: $scope.funcaoObjetivo,
                     res: jsonTexto,
                     ajax : true}, {

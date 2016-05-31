@@ -28,24 +28,32 @@ public class SimplexController {
      */
     @RequestMapping(value = "/resolver", method = RequestMethod.POST)
     @ResponseBody
-    public DataResponse resolverSimplex (@RequestParam (value = "fo[]") String fo[], @RequestParam (value = "res") String res ){
+    public DataResponse resolverSimplex (@RequestParam (value = "tres[]") String tres[], @RequestParam (value = "fo[]") String fo[], @RequestParam (value = "res") String res ){
         double[] funcao = new double[fo.length];
         double[][] restricoes;
+        double[] totalRestricoes = new double[tres.length];
+
         for(int i = 0; i< fo.length;i++){
             funcao[i] = Double.parseDouble(fo[i]);
         }
+
+        for(int i = 0; i< tres.length;i++){
+            totalRestricoes[i] = Double.parseDouble(tres[i]);
+        }
+
 
         try {
             JSONArray arr = new JSONArray(res);
 
             restricoes = new double[arr.length()][arr.getJSONObject(0).length()];
             for(int i = 0; i < arr.length(); i++){
-                for( int j = 0 ; j < arr.getJSONObject(0).length();j++){
+                for( int j = 0 ; j < arr.getJSONObject(0).length() - 1;j++){
                     restricoes[i][j] = arr.getJSONObject(i).getDouble("" + j);
                 }
 
             }
-            sm.resolverSimplex(funcao, restricoes);
+            sm = new SimplexModel();
+            sm.resolverSimplex(funcao, restricoes, totalRestricoes);
         } catch (JSONException e) {
             e.printStackTrace();
         }
