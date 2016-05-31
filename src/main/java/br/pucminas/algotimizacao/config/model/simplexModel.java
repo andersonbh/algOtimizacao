@@ -1,8 +1,5 @@
 package br.pucminas.algotimizacao.config.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by anderson on 11/05/16.
  */
@@ -259,4 +256,10 @@ class Modeler {
     public int getNumberOfOriginalVariable() {
         return numberOfOriginalVariables;
     }
+    public String resolverSimplex(double[] fo, double [][] restricoes){
+
+
+        return "Simplex resolvido com sucesso";
+    }
+
 }
