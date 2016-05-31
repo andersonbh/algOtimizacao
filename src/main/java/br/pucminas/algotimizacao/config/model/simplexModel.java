@@ -29,7 +29,7 @@ public class SimplexModel {
         solve();
     }
 
-    public static void init() {
+    public static void init(double[] fo, double[][] restricao) {
 
         /*
         Funcao exemplo testada:
@@ -257,7 +257,7 @@ class Modeler {
         return numberOfOriginalVariables;
     }
     public String resolverSimplex(double[] fo, double [][] restricoes){
-
+        SimplexModel.init(fo, restricoes);
 
         return "Simplex resolvido com sucesso";
     }
