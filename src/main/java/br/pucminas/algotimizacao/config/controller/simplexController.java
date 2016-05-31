@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/simplex")
 public class SimplexController {
 
-    SimplexModel sm;
-
     /**
      * POST  /resolver -> resolve o simplex recebendo os valores solicitados
      */
@@ -27,7 +25,7 @@ public class SimplexController {
         produces = MediaType.APPLICATION_JSON_VALUE)
     //@Timed
     public ResponseEntity<String> resolverSimplex (@RequestParam double[] fo){
-           sm.resolverSimplex();
+           SimplexModel.init();
         return new ResponseEntity<>("Simplex resolvido!", HttpStatus.OK);
     }
 
