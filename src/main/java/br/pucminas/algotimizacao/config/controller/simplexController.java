@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.InterceptingClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,10 +30,11 @@ public class SimplexController {
 
     @RequestMapping(value = "/resolver", method = RequestMethod.POST)
     @ResponseBody
-    public DataResponse resolverSimplex (@RequestParam (value = "tres[]") String tres[], @RequestParam (value = "fo[]") String fo[], @RequestParam (value = "res") String res ){
+    public DataResponse resolverSimplex (@RequestParam (value = "tres[]") String tres[], @RequestParam (value = "fo[]") String fo[], @RequestParam (value = "res") String res, @RequestParam (value = "lim[]") String lim[], @RequestParam  (value = "maxMin") boolean  maxMin ){
         double[] funcao = new double[fo.length];
         double[][] restricoes;
         double[] totalRestricoes = new double[tres.length];
+        int[] limites = new int[lim.length];
 
         for(int i = 0; i< fo.length;i++){
             funcao[i] = Double.parseDouble(fo[i]);
@@ -40,6 +42,7 @@ public class SimplexController {
 
         for(int i = 0; i< tres.length;i++){
             totalRestricoes[i] = Double.parseDouble(tres[i]);
+            limites[i] = Integer.parseInt(lim[i]);
         }
 
 
@@ -55,7 +58,7 @@ public class SimplexController {
 
             }
 
-            SimplexModel.init(funcao, restricoes, totalRestricoes);
+            SimplexModel.init(funcao, restricoes, totalRestricoes, limites, maxMin);
         } catch (JSONException e) {
             e.printStackTrace();
         }

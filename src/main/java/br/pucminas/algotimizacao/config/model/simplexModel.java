@@ -12,9 +12,6 @@ public class SimplexModel {
 
     private boolean maximizeOrMinimize;
 
-    private static final boolean MAXIMIZE = true;
-    private static final boolean MINIMIZE = false;
-
     private int[] basis; // basis[i] = basic variable corresponding to row i
 
     public SimplexModel(double[][] tableaux, int numberOfConstraint, int numberOfOriginalVariable, boolean maximizeOrMinimize) {
@@ -31,7 +28,15 @@ public class SimplexModel {
     }
 
 
-    public static void init(double[] objectiveFunc, double[][] constraintLeftSide, double [] constraintRightSide) {
+    /**
+     *
+     * @param funcaoObjetivo é a funcao objetivo
+     * @param constraintLeftSide é o lado esquerdo da equacao, antes do limite
+     * @param constraintRightSide é o lado direito da equacao, depois do limite
+     * @param limites são os limites(sinais), menor igual é 1, igual é 0 e maior igual é -1
+     * @param maxMin pode ser true para Maximizar ou false para Minimizar
+     */
+    public static void init(double[] funcaoObjetivo, double[][] constraintLeftSide, double [] constraintRightSide, int[] limites, boolean maxMin) {
 
         /*
         Funcao exemplo testada:
@@ -48,13 +53,9 @@ public class SimplexModel {
         X4= 0
         */
 
-        // Enum referente ao sinal da restricao
-        Constraint[] constraintOperator = { Constraint.lessThan, Constraint.lessThan, Constraint.greatherThan, Constraint.greatherThan};
+        Modeler model = new Modeler(constraintLeftSide, constraintRightSide, limites, funcaoObjetivo);
 
-
-        Modeler model = new Modeler(constraintLeftSide, constraintRightSide, constraintOperator, objectiveFunc);
-
-        SimplexModel simplex = new SimplexModel(model.getTableaux(), model.getNumberOfConstraint(), model.getNumberOfOriginalVariable(), MAXIMIZE);
+        SimplexModel simplex = new SimplexModel(model.getTableaux(), model.getNumberOfConstraint(), model.getNumberOfOriginalVariable(), maxMin);
         double[] x = simplex.primal();
         for (int i = 0; i < x.length; i++) {
             System.out.println("x[" + i + "] = " + x[i]);
@@ -197,16 +198,12 @@ public class SimplexModel {
     }
 }
 
-enum Constraint {
-    lessThan, equal, greatherThan
-}
-
 class Modeler {
     private double[][] a; // tableaux
     private int numberOfConstraints; // number of constraints
     private int numberOfOriginalVariables; // number of original variables
 
-    public Modeler(double[][] constraintLeftSide, double[] constraintRightSide, Constraint[] constraintOperator, double[] objectiveFunction) {
+    public Modeler(double[][] constraintLeftSide, double[] constraintRightSide, int[] limites, double[] objectiveFunction) {
         numberOfConstraints = constraintRightSide.length;
         numberOfOriginalVariables = objectiveFunction.length;
         a = new double[numberOfConstraints + 1][numberOfOriginalVariables
@@ -224,16 +221,8 @@ class Modeler {
 
         // initialize slack variable
         for (int i = 0; i < numberOfConstraints; i++) {
-            int slack = 0;
-            switch (constraintOperator[i]) {
-                case greatherThan:
-                    slack = -1;
-                    break;
-                case lessThan:
-                    slack = 1;
-                    break;
-                default:
-            }
+            //Caso seja maior igual será -1, caso seja igual sera 0 e caso seja menor igual sera 1
+            int slack = limites[i];
             a[i][numberOfOriginalVariables + i] = slack;
         }
 
