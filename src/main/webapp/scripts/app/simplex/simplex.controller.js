@@ -13,19 +13,15 @@ angular.module('algotimizacaoApp')
         $scope.init = function(){
             $scope.numvariaveis.push(0);
             $scope.restricoes.push(1);
-            $scope.totalRestricoes.push(1);
         };
 
         $scope.addVar = function(){
             $scope.numvariaveis.push($scope.numvariaveis.length);
-            $scope.funcaoObjetivo[$scope.numvariaveis.length] = 0;
-            $scope.valoresRestricoes[$scope.restricoes.length][$scope.numvariaveis.length] = 0;
         };
 
         $scope.addRestricao = function(){
           $scope.restricoes.push($scope.restricoes.length + 1);
-            $scope.totalRestricoes.push($scope.totalRestricoes.length + 1);
-
+            $scope.totalRestricoes.push($scope.restricoes.length);
         };
 
         Principal.identity().then(function(account) {
@@ -36,16 +32,18 @@ angular.module('algotimizacaoApp')
         $scope.resolver = function () {
             //copia os valores para remover a posicao 0 random
             var restricoes = angular.copy($scope.valoresRestricoes);
+            var totalrestricoes = angular.copy($scope.totalRestricoes);
             //Remove a posicao 0 do vetor
             restricoes.shift();
+            totalrestricoes.shift();
             //passa para json cabulosamente
             var jsonTexto = JSON.stringify(restricoes);
-            console.log($scope.totalRestricoes);
+            console.log(totalrestricoes);
             console.log($scope.funcaoObjetivo);
             console.log(jsonTexto);
             $http.post("/simplex/resolver",
                 {
-                    tres: $scope.totalRestricoes,
+                    tres: totalrestricoes,
                     fo: $scope.funcaoObjetivo,
                     res: jsonTexto,
                     ajax : true}, {

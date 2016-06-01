@@ -31,7 +31,7 @@ public class SimplexModel {
     }
 
 
-    public static void init(double[] fo, double[][] restricao, double [] totalRestricoes) {
+    public static void init(double[] objectiveFunc, double[][] constraintLeftSide, double [] constraintRightSide) {
 
         /*
         Funcao exemplo testada:
@@ -48,14 +48,9 @@ public class SimplexModel {
         X4= 0
         */
 
-        // Valores da FO
-        double[] objectiveFunc = { 40, 30 };
-        // Valores que acompanham os X's nas restricoes
-        double[][] constraintLeftSide = { { 3, 4 }, { 7, 2 }, { 1, 0 }, { 0, 1 } };
         // Enum referente ao sinal da restricao
         Constraint[] constraintOperator = { Constraint.lessThan, Constraint.lessThan, Constraint.greatherThan, Constraint.greatherThan};
-        // Valores da igualdade das restricoes
-        double[] constraintRightSide = { 12, 14, 0, 0};
+
 
         Modeler model = new Modeler(constraintLeftSide, constraintRightSide, constraintOperator, objectiveFunc);
 

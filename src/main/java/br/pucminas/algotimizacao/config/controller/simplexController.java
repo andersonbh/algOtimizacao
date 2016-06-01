@@ -43,29 +43,17 @@ public class SimplexController {
         }
 
 
+
         try {
             JSONArray arr = new JSONArray(res);
 
             restricoes = new double[arr.length()][arr.getJSONObject(0).length()];
             for(int i = 0; i < arr.length(); i++){
-                for( int j = 0 ; j < arr.getJSONObject(0).length() - 1;j++){
+                for( int j = 0 ; j < arr.getJSONObject(0).length();j++){
                     restricoes[i][j] = arr.getJSONObject(i).getDouble("" + j);
                 }
 
             }
-
-//            double tableaux[][]  = new double[restricoes.length][restricoes.length + 1];
-//
-//            for(int i = 0; i < tableaux.length; i++){
-//                for( int j = 0 ; j < tableaux.length;j++){
-//                    if(tableaux.length == j - 1){
-//                        tableaux[j] = totalRestricoes;
-//                    }else {
-//                        tableaux[i][j] = restricoes[i][j];
-//                    }
-//                }
-//            }
-
 
             SimplexModel.init(funcao, restricoes, totalRestricoes);
         } catch (JSONException e) {

@@ -20,7 +20,7 @@
 
             <hr/>
 
-            <form class="form-inline" ng-repeat="r in restricoes">
+            <div class="form-inline" ng-repeat="r in restricoes">
                 <label>Restrição {{$index + 1}}</label>
                 <div class="form-group" ng-repeat="i in numvariaveis" style="margin-top: 10px">
                     <input type="number" class="form-control" id="fator1" ng-model="valoresRestricoes[r][i]" ng-bind="0" placeholder="Ex: 2" style="width: 80px;">
@@ -35,7 +35,7 @@
                     <option><></option>
                 </select>
                 <input type="text" class="form-control" style="margin-top: 10px; width: 80px;" ng-model="totalRestricoes[r]" placeholder="Ex: 1">
-            </form>
+            </div>
             <button type="submit" ng-click="addRestricao()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-plus" ></i></button>
             <button ng-click="resolver()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-list" ></i></button>
 
