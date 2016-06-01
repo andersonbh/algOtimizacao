@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
 /**
  * Created by anderson on 11/05/16.
@@ -22,10 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 public class SimplexController {
 
     SimplexModel sm;
-
     /**
      * POST  /resolver -> resolve o simplex recebendo os valores solicitados
      */
+
     @RequestMapping(value = "/resolver", method = RequestMethod.POST)
     @ResponseBody
     public DataResponse resolverSimplex (@RequestParam (value = "tres[]") String tres[], @RequestParam (value = "fo[]") String fo[], @RequestParam (value = "res") String res ){
@@ -52,8 +53,21 @@ public class SimplexController {
                 }
 
             }
-            sm = new SimplexModel();
-            sm.resolverSimplex(funcao, restricoes, totalRestricoes);
+
+//            double tableaux[][]  = new double[restricoes.length][restricoes.length + 1];
+//
+//            for(int i = 0; i < tableaux.length; i++){
+//                for( int j = 0 ; j < tableaux.length;j++){
+//                    if(tableaux.length == j - 1){
+//                        tableaux[j] = totalRestricoes;
+//                    }else {
+//                        tableaux[i][j] = restricoes[i][j];
+//                    }
+//                }
+//            }
+
+
+            SimplexModel.init(funcao, restricoes, totalRestricoes);
         } catch (JSONException e) {
             e.printStackTrace();
         }

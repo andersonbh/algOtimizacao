@@ -13,7 +13,7 @@ angular.module('algotimizacaoApp')
         $scope.init = function(){
             $scope.numvariaveis.push(0);
             $scope.restricoes.push(1);
-
+            $scope.totalRestricoes.push(1);
         };
 
         $scope.addVar = function(){
@@ -24,6 +24,8 @@ angular.module('algotimizacaoApp')
 
         $scope.addRestricao = function(){
           $scope.restricoes.push($scope.restricoes.length + 1);
+            $scope.totalRestricoes.push($scope.totalRestricoes.length + 1);
+
         };
 
         Principal.identity().then(function(account) {
