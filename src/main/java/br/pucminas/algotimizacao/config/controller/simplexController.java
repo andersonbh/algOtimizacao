@@ -58,7 +58,7 @@ public class SimplexController {
 
             }
 
-            SimplexModel.init(funcao, restricoes, totalRestricoes, limites, maxMin);
+            SimplexModel.iniciar(funcao, restricoes, totalRestricoes, limites, maxMin);
         } catch (JSONException e) {
             e.printStackTrace();
         }
