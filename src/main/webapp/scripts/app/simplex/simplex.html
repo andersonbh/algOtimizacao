@@ -4,15 +4,19 @@
             <form class="form-inline">
                 <div class="form-group">
                     <label for="fator">Função Objetivo:</label>
-                    <select class="form-control"  ng-model="maxMin" ng-options="maxMinValor.valor as maxMinValor.nome for maxMinValor in maxMinValores"></select>
+                    <select class="form-control" ng-model="maxMin"
+                            ng-options="maxMinValor.valor as maxMinValor.nome for maxMinValor in maxMinValores"></select>
                 </div>
             </form>
             <form class="form-inline">
                 <div class="form-group" ng-repeat="i in numvariaveis" style="margin-top: 10px">
-                    <input type="number" class="form-control" ng-model="funcaoObjetivo[i]" style="width: 80px;" id="fator" placeholder="Ex: 2">
-                    <label for="fator" >x<sub>{{$index + 1}}</sub></label><label ng-show="$index  + 1< numvariaveis.length"> + </label>
+                    <input type="number" class="form-control" ng-model="funcaoObjetivo[i]" style="width: 80px;"
+                           id="fator" placeholder="Ex: 2">
+                    <label for="fator">x<sub>{{$index + 1}}</sub></label><label
+                    ng-show="$index  + 1< numvariaveis.length"> + </label>
                 </div>
-                <button type="submit" ng-click="addVar()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-plus" ></i></button>
+                <button type="submit" ng-click="addVar()" class="btn btn-default" style="margin-top: 10px"><i
+                    class="fa fa-plus"></i></button>
             </form>
 
             <hr/>
@@ -20,14 +24,36 @@
             <div class="form-inline" ng-repeat="r in restricoes">
                 <label>Restrição {{$index + 1}}</label>
                 <div class="form-group" ng-repeat="i in numvariaveis" style="margin-top: 10px">
-                    <input type="number" class="form-control" id="fator1" ng-model="valoresRestricoes[r][i]" ng-bind="0" placeholder="Ex: 2" style="width: 80px;">
-                    <label for="fator" >x<sub>{{$index + 1}}</sub></label><label ng-show="$index  + 1< numvariaveis.length"> + </label>
+                    <input type="number" class="form-control" id="fator1" ng-model="valoresRestricoes[r][i]" ng-bind="0"
+                           placeholder="Ex: 2" style="width: 80px;">
+                    <label for="fator">x<sub>{{$index + 1}}</sub></label><label
+                    ng-show="$index  + 1< numvariaveis.length"> + </label>
                 </div>
-                <select class="form-control" ng-model="limites[r]" ng-options="limiteMostrado.valor as limiteMostrado.nome for limiteMostrado in limitesMostrados"></select>
-                <input type="text" class="form-control" style="margin-top: 10px; width: 80px;" ng-model="totalRestricoes[r]" placeholder="Ex: 1">
+                <select class="form-control" ng-model="limites[r]"
+                        ng-options="limiteMostrado.valor as limiteMostrado.nome for limiteMostrado in limitesMostrados"></select>
+                <input type="text" class="form-control" style="margin-top: 10px; width: 80px;"
+                       ng-model="totalRestricoes[r]" placeholder="Ex: 1">
             </div>
-            <button type="submit" ng-click="addRestricao()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-plus" ></i></button>
-            <button ng-click="resolver()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-list" ></i></button>
+
+            <button type="submit" ng-click="addRestricao()" class="btn btn-default" style="margin-top: 10px"><i
+                class="fa fa-plus"></i></button>
+            <button ng-click="resolver()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-list"></i>
+            </button>
+
+            <div class="container" ng-show="resultado">
+                <h2>Resultado</h2>
+                <table class="table-bordered table-responsive">
+                    <tbody>
+                    <tr ng-repeat="i in resultado">
+                        <td><h4>{{i}}</h4></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+           <div> <button ng-click="limpar()" class="btn btn-default" style="margin-top: 10px"><i class="fa fa-trash"> Limpar Tudo</i>
+            </button>
+           </div>
+
 
         </div>
     </div>

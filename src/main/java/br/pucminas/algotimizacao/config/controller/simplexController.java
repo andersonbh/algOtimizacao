@@ -35,6 +35,8 @@ public class SimplexController {
         double[][] restricoes;
         double[] totalRestricoes = new double[tres.length];
         int[] limites = new int[lim.length];
+        DataData resposta = new DataData();
+
 
         for(int i = 0; i< fo.length;i++){
             funcao[i] = Double.parseDouble(fo[i]);
@@ -58,13 +60,12 @@ public class SimplexController {
 
             }
 
-            SimplexModel.iniciar(funcao, restricoes, totalRestricoes, limites, maxMin);
+            String[] resultado = SimplexModel.iniciar(funcao, restricoes, totalRestricoes, limites, maxMin);
+            resposta.add(resultado);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        DataData resposta = new DataData();
-        resposta.add(funcao);
         resposta.setMessage("aeeee");
         return resposta;
     }

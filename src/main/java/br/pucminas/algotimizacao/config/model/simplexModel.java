@@ -15,10 +15,10 @@ public class SimplexModel {
 
     private int[] variaveisBasicas; // variaveisBasicas[i] = variaveis basicas da posicao i
 
-    public SimplexModel(double[][] tabela, int numberOfConstraint, int numberOfOriginalVariable, boolean maximizeOrMinimize) {
-        this.maximizarMinimizar = maximizeOrMinimize;
-        this.numeroDeRestricoes = numberOfConstraint;
-        this.tamanhoFuncaoObjetivo = numberOfOriginalVariable;
+    public SimplexModel(double[][] tabela, int numeroDeRestricoes, int tamanhoFuncaoObjetivo, boolean maximizarMinimizar) {
+        this.maximizarMinimizar = maximizarMinimizar;
+        this.numeroDeRestricoes = numeroDeRestricoes;
+        this.tamanhoFuncaoObjetivo = tamanhoFuncaoObjetivo;
         this.tabela = tabela;
 
         variaveisBasicas = new int[numeroDeRestricoes];
@@ -37,7 +37,7 @@ public class SimplexModel {
      * @param limites são os limites(sinais), menor igual é 1, igual é 0 e maior igual é -1
      * @param maxMin pode ser true para Maximizar ou false para Minimizar
      */
-    public static void iniciar(double[] funcaoObjetivo, double[][] restricoesLadoEsquerdo, double [] restricoesLadoDireito, int[] limites, boolean maxMin) {
+    public static String[] iniciar(double[] funcaoObjetivo, double[][] restricoesLadoEsquerdo, double [] restricoesLadoDireito, int[] limites, boolean maxMin) {
 
         /*
         Funcao exemplo testada:
@@ -58,11 +58,17 @@ public class SimplexModel {
 
         SimplexModel simplex = new SimplexModel(model.getTabela(), model.getNumeroDeRestricoes(), model.getTamanhoFuncaoObjetivo(), maxMin);
         double[] x = simplex.primal();
+
+        String[] resultado = new String[x.length + 1];
         for (int i = 0; i < x.length; i++) {
-            System.out.println("x[" + i + "] = " + x[i]);
+            resultado [i]= "x[" + i + 1 + "] = " + x[i]  ;
+            System.out.println("x[" + i + 1 + "] = " + x[i]);
         }
 
+        resultado [x.length]= "Solução: " + simplex.value();
         System.out.println("Solucao: " + simplex.value());
+
+        return resultado;
     }
 
     private void resolverSimplex() {

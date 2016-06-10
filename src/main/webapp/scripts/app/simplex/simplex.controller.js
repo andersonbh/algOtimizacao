@@ -15,6 +15,7 @@ angular.module('algotimizacaoApp')
             {valor: 0, nome: '='},
             {valor: -1, nome: '>='}
         ];
+        $scope.resultado = "";
         $scope.maxMin = true;
         $scope.maxMinValores = [
             {valor: true, nome: 'MAX'},
@@ -35,6 +36,29 @@ angular.module('algotimizacaoApp')
             $scope.restricoes.push($scope.restricoes.length + 1);
             $scope.totalRestricoes.push($scope.restricoes.length);
             $scope.limites.push($scope.restricoes.length);
+        };
+
+        $scope.limpar = function () {
+            $scope.indice = 0;
+            $scope.numvariaveis = [];
+            $scope.funcaoObjetivo = [];
+            $scope.valoresRestricoes = [$scope.numvariaveis];
+            $scope.restricoes = [];
+            $scope.valoresVariaveis = [];
+            $scope.totalRestricoes = [];
+            $scope.limites = [];
+            $scope.limitesMostrados = [
+                {valor: 1, nome: '<='},
+                {valor: 0, nome: '='},
+                {valor: -1, nome: '>='}
+            ];
+            $scope.resultado = "";
+            $scope.maxMin = true;
+            $scope.maxMinValores = [
+                {valor: true, nome: 'MAX'},
+                {valor: false, nome: 'MIN'}
+            ];
+            $scope.init();
         };
 
         Principal.identity().then(function (account) {
@@ -71,7 +95,8 @@ angular.module('algotimizacaoApp')
                     },
                     headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
                 }).success(function (response) {
-                console.log(response.data);
+                console.log(response.data[0]);
+                $scope.resultado = response.data;
                 console.log('aeeeee');
                 console.log('aeee' + response.message);
             }).error(function (response) {
