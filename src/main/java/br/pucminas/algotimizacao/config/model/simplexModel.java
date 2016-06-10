@@ -9,7 +9,6 @@ public class SimplexModel {
     private int numberOfConstraints; // number of constraints
     private int numberOfOriginalVariables; // number of original variables
 
-
     private boolean maximizeOrMinimize;
 
     private int[] basis; // basis[i] = basic variable corresponding to row i
