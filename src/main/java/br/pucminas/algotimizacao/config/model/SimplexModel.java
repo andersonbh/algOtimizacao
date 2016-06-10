@@ -14,6 +14,8 @@ public class SimplexModel {
 
     private int[] variaveisBasicas; // variaveisBasicas[i] = variaveis basicas da posicao i
 
+    private boolean IMPOSSIVEL = false;
+
     public SimplexModel(double[][] tabela, int numeroDeRestricoes, int tamanhoFuncaoObjetivo, boolean maximizarMinimizar) {
         this.maximizarMinimizar = maximizarMinimizar;
         this.numeroDeRestricoes = numeroDeRestricoes;
@@ -39,15 +41,21 @@ public class SimplexModel {
 
         SimplexModel simplex = new SimplexModel(model.getTabela(), model.getNumeroDeRestricoes(), model.getTamanhoFuncaoObjetivo(), maxMin);
         double[] x = simplex.primal();
+        String[] resultado;
+        if(simplex.IMPOSSIVEL){
+            resultado = new String[1];
+            resultado[0] = "Solução impossível";
+        }else{
+           resultado = new String[x.length + 1];
+            for (int i = 0; i < x.length; i++) {
+                resultado [i]= "x[" + (i + 1) + "] = " + x[i]  ;
+                System.out.println("x[" + (i + 1) + "] = " + x[i]);
+            }
 
-        String[] resultado = new String[x.length + 1];
-        for (int i = 0; i < x.length; i++) {
-            resultado [i]= "x[" + (i + 1) + "] = " + x[i]  ;
-            System.out.println("x[" + (i + 1) + "] = " + x[i]);
+            resultado [x.length] = "Solucao: " + simplex.getSolucao();
+            System.out.println("Solucao: " + simplex.getSolucao());
         }
 
-        resultado [x.length] = "Solucao: " + simplex.getSolucao();
-        System.out.println("Solucao: " + simplex.getSolucao());
 
         return resultado;
     }
@@ -67,9 +75,11 @@ public class SimplexModel {
                 break; // optimal
 
             // Encontra linha p
-            int p = minRatioRule(q);
-            if (p == -1)
-                throw new ArithmeticException("Solucao Impossível");
+            int p = regraTaxaMinima(q);
+            if (p == -1) {
+                IMPOSSIVEL = true;
+                break;
+            }
 
             // Pivo
             pivot(p, q);
@@ -106,7 +116,7 @@ public class SimplexModel {
     }
 
     // Encontra linha p usando a regra da taxa minima (-1 se nao existe)
-    private int minRatioRule(int q) {
+    private int regraTaxaMinima(int q) {
         int p = -1;
         for (int i = 0; i < numeroDeRestricoes; i++) {
             if (tabela[i][q] <= 0)
