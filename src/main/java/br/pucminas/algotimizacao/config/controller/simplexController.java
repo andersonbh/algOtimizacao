@@ -1,6 +1,6 @@
 package br.pucminas.algotimizacao.config.controller;
 
-import br.pucminas.algotimizacao.config.model.SimplexModel;
+import br.pucminas.algotimizacao.config.model.simplexModel;
 import br.pucminas.algotimizacao.config.response.DataData;
 import br.pucminas.algotimizacao.config.response.DataResponse;
 import org.json.JSONArray;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/simplex")
 public class SimplexController {
 
-    SimplexModel sm;
+    simplexModel sm;
     /**
      * POST  /resolver -> resolve o simplex recebendo os valores solicitados
      */
@@ -49,7 +49,7 @@ public class SimplexController {
 
             }
 
-            SimplexModel.iniciar(funcao, restricoes, totalRestricoes, limites, maxMin);
+            simplexModel.iniciar(funcao, restricoes, totalRestricoes, limites, maxMin);
         } catch (JSONException e) {
             e.printStackTrace();
         }

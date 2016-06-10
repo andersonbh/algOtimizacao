@@ -4,7 +4,7 @@ import br.pucminas.algotimizacao.config.entidades.Model;
 /**
  * Created by anderson on 11/05/16.
  */
-public class SimplexModel {
+public class simplexModel {
 
     private double[][] tabela; // tabela
     private int numeroDeRestricoes; // numero de restricoes
@@ -14,7 +14,7 @@ public class SimplexModel {
 
     private int[] variaveisBasicas; // variaveisBasicas[i] = variaveis basicas da posicao i
 
-    public SimplexModel(double[][] tabela, int numberOfConstraint, int numberOfOriginalVariable, boolean maximizeOrMinimize) {
+    public simplexModel(double[][] tabela, int numberOfConstraint, int numberOfOriginalVariable, boolean maximizeOrMinimize) {
         this.maximizarMinimizar = maximizeOrMinimize;
         this.numeroDeRestricoes = numberOfConstraint;
         this.tamanhoFuncaoObjetivo = numberOfOriginalVariable;
@@ -55,7 +55,7 @@ public class SimplexModel {
 
         Model model = new Model(restricoesLadoEsquerdo, restricoesLadoDireito, limites, funcaoObjetivo);
 
-        SimplexModel simplex = new SimplexModel(model.getTabela(), model.getNumeroDeRestricoes(), model.getTamanhoFuncaoObjetivo(), maxMin);
+        simplexModel simplex = new simplexModel(model.getTabela(), model.getNumeroDeRestricoes(), model.getTamanhoFuncaoObjetivo(), maxMin);
         double[] x = simplex.primal();
         for (int i = 0; i < x.length; i++) {
             System.out.println("x[" + i + "] = " + x[i]);
