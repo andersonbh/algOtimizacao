@@ -10,7 +10,6 @@ public class SimplexModel {
     private int numeroDeRestricoes; // numero de restricoes
     private int tamanhoFuncaoObjetivo; // tamanho da funcao objetivo
 
-
     private boolean maximizarMinimizar; // boolean, caso queira maximizar sera true, senao false
 
     private int[] variaveisBasicas; // variaveisBasicas[i] = variaveis basicas da posicao i
@@ -61,8 +60,8 @@ public class SimplexModel {
 
         String[] resultado = new String[x.length + 1];
         for (int i = 0; i < x.length; i++) {
-            resultado [i]= "x[" + i + 1 + "] = " + x[i]  ;
-            System.out.println("x[" + i + 1 + "] = " + x[i]);
+            resultado [i]= "x[" + (i + 1) + "] = " + x[i]  ;
+            System.out.println("x[" + (i + 1) + "] = " + x[i]);
         }
 
         resultado [x.length]= "Solução: " + simplex.value();

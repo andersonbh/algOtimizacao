@@ -3,7 +3,6 @@ package br.pucminas.algotimizacao;
 import br.pucminas.algotimizacao.config.Constants;
 import br.pucminas.algotimizacao.config.JHipsterProperties;
 
-import br.pucminas.algotimizacao.config.model.SimplexModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

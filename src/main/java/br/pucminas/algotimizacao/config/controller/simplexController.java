@@ -3,18 +3,9 @@ package br.pucminas.algotimizacao.config.controller;
 import br.pucminas.algotimizacao.config.model.SimplexModel;
 import br.pucminas.algotimizacao.config.response.DataData;
 import br.pucminas.algotimizacao.config.response.DataResponse;
-import com.codahale.metrics.annotation.Timed;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.InterceptingClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 
 /**
  * Created by anderson on 11/05/16.
@@ -30,7 +21,7 @@ public class SimplexController {
 
     @RequestMapping(value = "/resolver", method = RequestMethod.POST)
     @ResponseBody
-    public DataResponse resolverSimplex (@RequestParam (value = "tres[]") String tres[], @RequestParam (value = "fo[]") String fo[], @RequestParam (value = "res") String res, @RequestParam (value = "lim[]") String lim[], @RequestParam  (value = "maxMin") boolean  maxMin ){
+    public DataResponse resolverSimplex(@RequestParam (value = "tres[]") String tres[], @RequestParam (value = "fo[]") String fo[], @RequestParam (value = "res") String res, @RequestParam (value = "lim[]") String lim[], @RequestParam  (value = "maxMin") boolean  maxMin ){
         double[] funcao = new double[fo.length];
         double[][] restricoes;
         double[] totalRestricoes = new double[tres.length];
@@ -62,9 +53,11 @@ public class SimplexController {
 
             String[] resultado = SimplexModel.iniciar(funcao, restricoes, totalRestricoes, limites, maxMin);
             resposta.add(resultado);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
 
         resposta.setMessage("aeeee");
         return resposta;
