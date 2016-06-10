@@ -1,41 +1,42 @@
 package br.pucminas.algotimizacao.config.model;
+import br.pucminas.algotimizacao.config.entidades.Model;
 
 /**
  * Created by anderson on 11/05/16.
  */
 public class SimplexModel {
 
-    private double[][] tableaux; // tableaux
-    private int numberOfConstraints; // number of constraints
-    private int numberOfOriginalVariables; // number of original variables
+    private double[][] tabela; // tabela
+    private int numeroDeRestricoes; // numero de restricoes
+    private int tamanhoFuncaoObjetivo; // tamanho da funcao objetivo
 
-    private boolean maximizeOrMinimize;
+    private boolean maximizarMinimizar; // boolean, caso queira maximizar sera true, senao false
 
-    private int[] basis; // basis[i] = basic variable corresponding to row i
+    private int[] variaveisBasicas; // variaveisBasicas[i] = variaveis basicas da posicao i
 
-    public SimplexModel(double[][] tableaux, int numberOfConstraint, int numberOfOriginalVariable, boolean maximizeOrMinimize) {
-        this.maximizeOrMinimize = maximizeOrMinimize;
-        this.numberOfConstraints = numberOfConstraint;
-        this.numberOfOriginalVariables = numberOfOriginalVariable;
-        this.tableaux = tableaux;
+    public SimplexModel(double[][] tabela, int numberOfConstraint, int numberOfOriginalVariable, boolean maximizeOrMinimize) {
+        this.maximizarMinimizar = maximizeOrMinimize;
+        this.numeroDeRestricoes = numberOfConstraint;
+        this.tamanhoFuncaoObjetivo = numberOfOriginalVariable;
+        this.tabela = tabela;
 
-        basis = new int[numberOfConstraints];
-        for (int i = 0; i < numberOfConstraints; i++)
-            basis[i] = numberOfOriginalVariables + i;
+        variaveisBasicas = new int[numeroDeRestricoes];
+        for (int i = 0; i < numeroDeRestricoes; i++)
+            variaveisBasicas[i] = tamanhoFuncaoObjetivo + i;
 
-        solve();
+        resolverSimplex();
     }
 
 
     /**
      *
      * @param funcaoObjetivo é a funcao objetivo
-     * @param constraintLeftSide é o lado esquerdo da equacao, antes do limite
-     * @param constraintRightSide é o lado direito da equacao, depois do limite
+     * @param restricoesLadoEsquerdo é o lado esquerdo da equacao, antes do limite
+     * @param restricoesLadoDireito é o lado direito da equacao, depois do limite
      * @param limites são os limites(sinais), menor igual é 1, igual é 0 e maior igual é -1
      * @param maxMin pode ser true para Maximizar ou false para Minimizar
      */
-    public static void init(double[] funcaoObjetivo, double[][] constraintLeftSide, double [] constraintRightSide, int[] limites, boolean maxMin) {
+    public static void iniciar(double[] funcaoObjetivo, double[][] restricoesLadoEsquerdo, double [] restricoesLadoDireito, int[] limites, boolean maxMin) {
 
         /*
         Funcao exemplo testada:
@@ -52,9 +53,9 @@ public class SimplexModel {
         X4= 0
         */
 
-        Modeler model = new Modeler(constraintLeftSide, constraintRightSide, limites, funcaoObjetivo);
+        Model model = new Model(restricoesLadoEsquerdo, restricoesLadoDireito, limites, funcaoObjetivo);
 
-        SimplexModel simplex = new SimplexModel(model.getTableaux(), model.getNumberOfConstraint(), model.getNumberOfOriginalVariable(), maxMin);
+        SimplexModel simplex = new SimplexModel(model.getTabela(), model.getNumeroDeRestricoes(), model.getTamanhoFuncaoObjetivo(), maxMin);
         double[] x = simplex.primal();
         for (int i = 0; i < x.length; i++) {
             System.out.println("x[" + i + "] = " + x[i]);
@@ -63,15 +64,13 @@ public class SimplexModel {
         System.out.println("Solucao: " + simplex.value());
     }
 
-
-    // run simplex algorithm starting from initial BFS
-    private void solve() {
+    private void resolverSimplex() {
         while (true) {
 
-            show();
+            mostrar();
             int q = 0;
             // find entering column q
-            if (maximizeOrMinimize) {
+            if (maximizarMinimizar) {
                 q = dantzig();
             } else {
                 q = dantzigNegative();
@@ -87,8 +86,8 @@ public class SimplexModel {
             // pivot
             pivot(p, q);
 
-            // update basis
-            basis[p] = q;
+            // update variaveisBasicas
+            variaveisBasicas[p] = q;
 
         }
     }
@@ -96,12 +95,12 @@ public class SimplexModel {
     // index of a non-basic column with most positive cost
     private int dantzig() {
         int q = 0;
-        for (int j = 1; j < numberOfConstraints + numberOfOriginalVariables; j++)
-            if (tableaux[numberOfConstraints][j] > tableaux[numberOfConstraints][q])
+        for (int j = 1; j < numeroDeRestricoes + tamanhoFuncaoObjetivo; j++)
+            if (tabela[numeroDeRestricoes][j] > tabela[numeroDeRestricoes][q])
                 q = j;
 
-        if (tableaux[numberOfConstraints][q] <= 0)
-            return -1; // optimal
+        if (tabela[numeroDeRestricoes][q] <= 0)
+            return -1;
         else
             return q;
     }
@@ -109,11 +108,11 @@ public class SimplexModel {
     // index of a non-basic column with most negative cost
     private int dantzigNegative() {
         int q = 0;
-        for (int j = 1; j < numberOfConstraints + numberOfOriginalVariables; j++)
-            if (tableaux[numberOfConstraints][j] < tableaux[numberOfConstraints][q])
+        for (int j = 1; j < numeroDeRestricoes + tamanhoFuncaoObjetivo; j++)
+            if (tabela[numeroDeRestricoes][j] < tabela[numeroDeRestricoes][q])
                 q = j;
 
-        if (tableaux[numberOfConstraints][q] >= 0)
+        if (tabela[numeroDeRestricoes][q] >= 0)
             return -1; // optimal
         else
             return q;
@@ -122,14 +121,14 @@ public class SimplexModel {
     // find row p using min ratio rule (-1 if no such row)
     private int minRatioRule(int q) {
         int p = -1;
-        for (int i = 0; i < numberOfConstraints; i++) {
-            if (tableaux[i][q] <= 0)
+        for (int i = 0; i < numeroDeRestricoes; i++) {
+            if (tabela[i][q] <= 0)
                 continue;
             else if (p == -1)
                 p = i;
-            else if ((tableaux[i][numberOfConstraints
-                + numberOfOriginalVariables] / tableaux[i][q]) < (tableaux[p][numberOfConstraints
-                + numberOfOriginalVariables] / tableaux[p][q]))
+            else if ((tabela[i][numeroDeRestricoes
+                + tamanhoFuncaoObjetivo] / tabela[i][q]) < (tabela[p][numeroDeRestricoes
+                + tamanhoFuncaoObjetivo] / tabela[p][q]))
                 p = i;
         }
         return p;
@@ -139,107 +138,60 @@ public class SimplexModel {
     private void pivot(int p, int q) {
 
         // everything but row p and column q
-        for (int i = 0; i <= numberOfConstraints; i++)
-            for (int j = 0; j <= numberOfConstraints
-                + numberOfOriginalVariables; j++)
+        for (int i = 0; i <= numeroDeRestricoes; i++)
+            for (int j = 0; j <= numeroDeRestricoes
+                + tamanhoFuncaoObjetivo; j++)
                 if (i != p && j != q)
-                    tableaux[i][j] -= tableaux[p][j] * tableaux[i][q]
-                        / tableaux[p][q];
+                    tabela[i][j] -= tabela[p][j] * tabela[i][q]
+                        / tabela[p][q];
 
         // zero out column q
-        for (int i = 0; i <= numberOfConstraints; i++)
+        for (int i = 0; i <= numeroDeRestricoes; i++)
             if (i != p)
-                tableaux[i][q] = 0.0;
+                tabela[i][q] = 0.0;
 
         // scale row p
-        for (int j = 0; j <= numberOfConstraints + numberOfOriginalVariables; j++)
+        for (int j = 0; j <= numeroDeRestricoes + tamanhoFuncaoObjetivo; j++)
             if (j != q)
-                tableaux[p][j] /= tableaux[p][q];
-        tableaux[p][q] = 1.0;
+                tabela[p][j] /= tabela[p][q];
+        tabela[p][q] = 1.0;
     }
 
     // return optimal objective value
     public double value() {
-        return -tableaux[numberOfConstraints][numberOfConstraints
-            + numberOfOriginalVariables];
+        return -tabela[numeroDeRestricoes][numeroDeRestricoes
+            + tamanhoFuncaoObjetivo];
     }
 
     // return primal solution vector
     public double[] primal() {
-        double[] x = new double[numberOfOriginalVariables];
-        for (int i = 0; i < numberOfConstraints; i++)
-            if (basis[i] < numberOfOriginalVariables)
-                x[basis[i]] = tableaux[i][numberOfConstraints
-                    + numberOfOriginalVariables];
+        double[] x = new double[tamanhoFuncaoObjetivo];
+        for (int i = 0; i < numeroDeRestricoes; i++)
+            if (variaveisBasicas[i] < tamanhoFuncaoObjetivo)
+                x[variaveisBasicas[i]] = tabela[i][numeroDeRestricoes
+                    + tamanhoFuncaoObjetivo];
         return x;
     }
 
-    // print tableaux
-    public void show() {
-        System.out.println("M = " + numberOfConstraints);
-        System.out.println("N = " + numberOfOriginalVariables);
-        for (int i = 0; i <= numberOfConstraints; i++) {
-            for (int j = 0; j <= numberOfConstraints
-                + numberOfOriginalVariables; j++) {
-                System.out.printf("%7.2f ", tableaux[i][j]);
+    // print tabela
+    public void mostrar() {
+        System.out.println("M = " + numeroDeRestricoes);
+        System.out.println("N = " + tamanhoFuncaoObjetivo);
+        for (int i = 0; i <= numeroDeRestricoes; i++) {
+            for (int j = 0; j <= numeroDeRestricoes
+                + tamanhoFuncaoObjetivo; j++) {
+                System.out.printf("%7.2f ", tabela[i][j]);
             }
             System.out.println();
         }
         System.out.println("value = " + value());
-        for (int i = 0; i < numberOfConstraints; i++)
-            if (basis[i] < numberOfOriginalVariables)
+        for (int i = 0; i < numeroDeRestricoes; i++)
+            if (variaveisBasicas[i] < tamanhoFuncaoObjetivo)
                 System.out.println("x_"
-                    + basis[i]
+                    + variaveisBasicas[i]
                     + " = "
-                    + tableaux[i][numberOfConstraints
-                    + numberOfOriginalVariables]);
+                    + tabela[i][numeroDeRestricoes
+                    + tamanhoFuncaoObjetivo]);
         System.out.println();
     }
-}
-
-class Modeler {
-    private double[][] a; // tableaux
-    private int numberOfConstraints; // number of constraints
-    private int numberOfOriginalVariables; // number of original variables
-
-    public Modeler(double[][] constraintLeftSide, double[] constraintRightSide, int[] limites, double[] objectiveFunction) {
-        numberOfConstraints = constraintRightSide.length;
-        numberOfOriginalVariables = objectiveFunction.length;
-        a = new double[numberOfConstraints + 1][numberOfOriginalVariables
-            + numberOfConstraints + 1];
-
-        // initialize constraint
-        for (int i = 0; i < numberOfConstraints; i++) {
-            for (int j = 0; j < numberOfOriginalVariables; j++) {
-                a[i][j] = constraintLeftSide[i][j];
-            }
-        }
-
-        for (int i = 0; i < numberOfConstraints; i++)
-            a[i][numberOfConstraints + numberOfOriginalVariables] = constraintRightSide[i];
-
-        // initialize slack variable
-        for (int i = 0; i < numberOfConstraints; i++) {
-            //Caso seja maior igual será -1, caso seja igual sera 0 e caso seja menor igual sera 1
-            int slack = limites[i];
-            a[i][numberOfOriginalVariables + i] = slack;
-        }
-
-        // initialize objective function
-        for (int j = 0; j < numberOfOriginalVariables; j++)
-            a[numberOfConstraints][j] = objectiveFunction[j];
-    }
-
-    public double[][] getTableaux() {
-        return a;
-    }
-
-    public int getNumberOfConstraint() {
-        return numberOfConstraints;
-    }
-
-    public int getNumberOfOriginalVariable() {
-        return numberOfOriginalVariables;
-    }
-
 }
